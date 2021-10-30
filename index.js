@@ -20,11 +20,27 @@ async function run(){
         await client.connect();
         const database = client.db('tralive');
         const Userscollection = database.collection('users');
+        const eventcollection = database.collection('events');
         
+        //get all users
         app.get('/users' , async (req , res) => {
             const result = await Userscollection.find({}).toArray();
             console.log(result);
             res.send(result);
+        })
+
+        //insert new event
+        app.post('/add-event' , async (req , res) => {
+            const data = req.body;
+            const result = await eventcollection.insertOne(data);
+            res.send(result.acknowledged);
+            console.log('Data Added',result);
+        })
+
+        //get all event
+        app.get('/events', async (req , res) => {
+            const events = await eventcollection.find({}).toArray();
+            res.send(events);
         })
 
 
