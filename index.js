@@ -64,6 +64,13 @@ async function run(){
             console.log('order Added',result);
         })
 
+        //get all order
+        app.get('/orders' , async (req , res) => {
+            const result = await orderCollection.find({}).toArray();
+            console.log('all order', result);
+            res.send(result);
+        })
+
 
     }
     finally{
